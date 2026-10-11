@@ -6,7 +6,7 @@ All notable changes to this project will be documented in this file.
 | license | MIT         |
 | author  | Clarence "Sparr" Risher |
 
-## Unreleased
+## 0.1.0 - 2026-10-11
 
 - Initial release
 - The in-game load dialog lists saves as a tree of timelines, with collapsible groups

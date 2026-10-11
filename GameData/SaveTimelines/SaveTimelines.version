@@ -1,0 +1,14 @@
+{
+  "NAME": "Save Timelines",
+  "URL": "https://raw.githubusercontent.com/sparr/ksp-mod-SaveTimelines/main/GameData/SaveTimelines/SaveTimelines.version",
+  "DOWNLOAD": "https://github.com/sparr/ksp-mod-SaveTimelines/releases",
+  "GITHUB": {
+    "USERNAME": "sparr",
+    "REPOSITORY": "ksp-mod-SaveTimelines",
+    "ALLOW_PRE_RELEASE": false
+  },
+  "VERSION": "0.1.0",
+  "KSP_VERSION": "1.12.5",
+  "KSP_VERSION_MIN": "1.12.0",
+  "KSP_VERSION_MAX": "1.12.99"
+}

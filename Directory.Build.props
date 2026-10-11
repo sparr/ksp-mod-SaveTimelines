@@ -1,0 +1,26 @@
+<Project>
+  <!-- Version.props holds the mod version. It is generated from Version.props.versiontemplate. -->
+  <Import Project="$(MSBuildThisFileDirectory)Version.props" />
+
+  <PropertyGroup>
+    <RepoRoot>$(MSBuildThisFileDirectory)</RepoRoot>
+
+    <!--
+      KSPBuildTools imports $(SolutionDir)$(SolutionName).props.user to find the game.
+      SolutionDir is unset when a csproj is built directly, so supply it here.
+    -->
+    <SolutionDir Condition=" '$(SolutionDir)' == '' ">$(RepoRoot)</SolutionDir>
+    <SolutionName Condition=" '$(SolutionName)' == '' ">SaveTimelines</SolutionName>
+
+    <!-- The folder that players install into GameData. -->
+    <KSPBT_ModRoot>$(RepoRoot)GameData/SaveTimelines/</KSPBT_ModRoot>
+    <KSPBT_ModPluginFolder>Plugins</KSPBT_ModPluginFolder>
+
+    <Product>SaveTimelines</Product>
+    <Authors>Clarence "Sparr" Risher</Authors>
+    <Copyright>Copyright (c) 2026 Clarence "Sparr" Risher</Copyright>
+    <Description>Shows saved games as a tree of timelines in the load dialog.</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/sparr/ksp-mod-SaveTimelines</RepositoryUrl>
+  </PropertyGroup>
+</Project>

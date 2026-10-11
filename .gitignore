@@ -1,0 +1,14 @@
+# Build output
+bin/
+obj/
+/GameData/*/Plugins/
+/GameData/*/LICENSE
+/GameData/*/README.md
+
+# Per-machine settings, including SaveTimelines.props.user
+*.user
+.vs/
+
+# Throwaway KSP install used by test/integration
+/testenv/
+__pycache__/

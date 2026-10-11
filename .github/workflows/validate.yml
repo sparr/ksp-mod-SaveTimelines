@@ -1,0 +1,15 @@
+name: validate
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '**.cfg'
+  pull_request:
+    paths:
+      - '**.cfg'
+  workflow_dispatch:
+
+jobs:
+  validate:
+    uses: KSPModdingLibs/KSPBuildTools/.github/workflows/validate.yml@1.1.1

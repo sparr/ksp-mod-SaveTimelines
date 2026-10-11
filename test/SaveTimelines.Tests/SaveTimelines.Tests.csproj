@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <!-- Runs on the modern SDK, not on KSP's .NET 4.8, so the index and tree
+         rules can be tested without the game or Unity present. -->
+    <TargetFramework>net8.0</TargetFramework>
+    <LangVersion>9</LangVersion>
+    <IsPackable>false</IsPackable>
+    <Nullable>disable</Nullable>
+    <AssemblyName>SaveTimelines.Tests</AssemblyName>
+    <RootNamespace>SaveTimelines.Tests</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
+    <PackageReference Include="xunit" Version="2.9.2" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2" />
+  </ItemGroup>
+
+  <!-- The game-independent half of the mod is compiled straight into the test
+       assembly; the KSP-dependent files are deliberately left out. -->
+  <ItemGroup>
+    <Compile Include="../../src/SaveTimelines/SaveIndex.cs" Link="Mod/SaveIndex.cs" />
+    <Compile Include="../../src/SaveTimelines/SaveTree.cs" Link="Mod/SaveTree.cs" />
+    <Compile Include="../../src/SaveTimelines/Fingerprint.cs" Link="Mod/Fingerprint.cs" />
+    <Compile Include="../../src/SaveTimelines/Inference.cs" Link="Mod/Inference.cs" />
+  </ItemGroup>
+</Project>

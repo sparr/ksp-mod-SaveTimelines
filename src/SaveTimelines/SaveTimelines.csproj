@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+    <LangVersion>9</LangVersion>
+    <!-- Portable PDBs are what the Mono debugger in KSP reads. -->
+    <DebugType>portable</DebugType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="KSPBuildTools" Version="1.1.1" />
+  </ItemGroup>
+
+  <!--
+    Other mods this plugin compiles against. Each ModReference adds an assembly
+    reference and a KSPAssemblyDependency attribute. DLLPath is relative to the
+    KSP install. CKANIdentifier lets CI install the mod before compiling, which
+    needs "use-ckan: true" in .github/workflows/.
+  -->
+  <ItemGroup>
+    <!-- HarmonyKSP's 0Harmony.dll declares itself to KSP as "HarmonyKSP", not
+         by its file name, and a dependency on a name nothing declares makes
+         KSP skip this plugin without a word. -->
+    <ModReference Include="0Harmony">
+      <DLLPath>GameData/000_Harmony/0Harmony.dll</DLLPath>
+      <CKANIdentifier>Harmony2</CKANIdentifier>
+      <KSPAssemblyName>HarmonyKSP</KSPAssemblyName>
+      <KSPAssemblyVersion>1.0.0</KSPAssemblyVersion>
+    </ModReference>
+  </ItemGroup>
+
+  <!-- Ship the license and readme inside the mod folder. -->
+  <ItemGroup>
+    <ModDocs Include="$(RepoRoot)LICENSE;$(RepoRoot)README.md" />
+  </ItemGroup>
+  <Target Name="CopyModDocs" AfterTargets="Build">
+    <Copy SourceFiles="@(ModDocs)" DestinationFolder="$(KSPBT_ModRoot)" />
+  </Target>
+</Project>

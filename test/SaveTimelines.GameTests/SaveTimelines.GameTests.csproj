@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- In-game integration harness. Loads as a KSP plugin, drives saves and
+     loads, and writes a report; see test/integration/run_game_test.sh. -->
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net4.8</TargetFramework>
+        <LangVersion>9</LangVersion>
+        <DebugType>portable</DebugType>
+        <DebugSymbols>true</DebugSymbols>
+        <Optimize>false</Optimize>
+        <AssemblyName>SaveTimelines.GameTests</AssemblyName>
+        <RootNamespace>SaveTimelines.GameTests</RootNamespace>
+        <!-- Deploy into the throwaway test install, never the player's KSP. -->
+        <KSPBT_GameRoot>$(MSBuildProjectDirectory)/../../testenv/KSP</KSPBT_GameRoot>
+        <KSPBT_ModRoot>$(MSBuildProjectDirectory)/../../testenv/KSP/GameData/SaveTimelinesGameTests/</KSPBT_ModRoot>
+        <KSPBT_InstallCKANDependencies>false</KSPBT_InstallCKANDependencies>
+        <!-- Directory.Build.props stamps every project with the mod's
+             version; this one is not released. -->
+        <Version>1.0.0</Version>
+        <KSPBT_GenerateVersionFile>false</KSPBT_GenerateVersionFile>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="KSPBuildTools" Version="1.1.1"></PackageReference>
+    </ItemGroup>
+    <ItemGroup>
+        <Reference Include="0Harmony">
+            <HintPath>$(KSPBT_GameRoot)/GameData/000_Harmony/0Harmony.dll</HintPath>
+            <Private>false</Private>
+            <KSPAssemblyName>HarmonyKSP</KSPAssemblyName>
+            <KSPAssemblyVersion>1.0.0</KSPAssemblyVersion>
+            <GenerateDependencyAttribute>true</GenerateDependencyAttribute>
+        </Reference>
+    </ItemGroup>
+</Project>

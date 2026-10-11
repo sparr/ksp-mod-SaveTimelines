@@ -1,0 +1,25 @@
+name: build
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '**/*.cs'
+      - '**/*.csproj'
+      - '**/*.props'
+      - '.github/workflows/build.yml'
+  pull_request:
+    paths:
+      - '**/*.cs'
+      - '**/*.csproj'
+      - '**/*.props'
+      - '.github/workflows/build.yml'
+  workflow_dispatch:
+
+jobs:
+  build:
+    uses: KSPModdingLibs/KSPBuildTools/.github/workflows/build.yml@1.1.1
+    with:
+      solution-file-path: SaveTimelines.sln
+      # The csproj has a ModReference with a CKANIdentifier (Harmony).
+      use-ckan: true

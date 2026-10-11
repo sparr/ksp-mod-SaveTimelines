@@ -1,0 +1,19 @@
+<Project>
+  <PropertyGroup>
+    <!--
+      Copy this file to SaveTimelines.props.user and set the directory that holds
+      KSP.x86_64 (Linux), KSP_x64.exe (Windows), or KSP.app (macOS).
+      Setting the KSP_ROOT environment variable works too.
+      With the setting below, the build only reads reference assemblies from
+      here and never writes to it.
+    -->
+    <KSPBT_GameRoot>/path/to/Kerbal Space Program</KSPBT_GameRoot>
+
+    <!--
+      This mod references Harmony with a CKANIdentifier, and KSPBuildTools
+      would by default run "ckan install" for it against the install above on
+      every build. That is what CI needs and not what a play install needs.
+    -->
+    <KSPBT_InstallCKANDependencies>false</KSPBT_InstallCKANDependencies>
+  </PropertyGroup>
+</Project>

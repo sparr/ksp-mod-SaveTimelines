@@ -1,0 +1,69 @@
+name: create-release
+
+# Run by hand from the Actions tab. It commits the version bump, tags it,
+# pushes both, and creates a draft GitHub release with the zip attached.
+on:
+  workflow_dispatch:
+    inputs:
+      version-string:
+        description: Version as major.minor.patch, or one of --major, --minor, --patch
+        type: string
+        required: true
+
+permissions:
+  contents: write
+
+env:
+  KSP_ROOT: /tmp/ksp
+  RELEASE_STAGING: /tmp/release
+  MOD_NAME: SaveTimelines
+
+defaults:
+  run:
+    shell: bash
+
+# These are the steps of the KSPBuildTools create-release reusable workflow.
+# That workflow names the zip after the repository and has no input to change
+# it, so its actions are called directly here to name the zip after the mod.
+jobs:
+  create-release:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+
+      # Sets VERSION_STRING and RELEASE_NOTES_FILE for the later steps.
+      - name: update-version
+        uses: KSPModdingLibs/KSPBuildTools/.github/actions/update-version@1.1.1
+        with:
+          version-string: ${{ inputs.version-string }}
+          changelog-output-file: GameData/${{ env.MOD_NAME }}/changelog.cfg
+
+      - name: commit-version-and-tag
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git commit --allow-empty -m "bump version to $VERSION_STRING"
+          git tag -f -a "$VERSION_STRING" -m "$VERSION_STRING"
+
+      # The csproj has a ModReference with a CKANIdentifier (Harmony).
+      - name: setup-ckan
+        uses: KSPModdingLibs/KSPBuildTools/.github/actions/setup-ckan@1.1.1
+
+      - name: compile
+        uses: KSPModdingLibs/KSPBuildTools/.github/actions/compile@1.1.1
+        with:
+          build-configuration: Release
+          solution-file-path: ${{ env.MOD_NAME }}.sln
+
+      - name: assemble-release
+        id: assemble-release
+        uses: KSPModdingLibs/KSPBuildTools/.github/actions/assemble-release@1.1.1
+        with:
+          output-file-name: ${{ env.MOD_NAME }}-${{ env.VERSION_STRING }}
+
+      - name: create-release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git push
+          gh release create "$VERSION_STRING" --draft --target ${{ github.ref_name }} --title "$VERSION_STRING" "${{ steps.assemble-release.outputs.artifact-zip-path }}" --notes-file "$RELEASE_NOTES_FILE"
